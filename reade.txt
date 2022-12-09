@@ -1,0 +1,154 @@
+
+package.json → informações sobre o projetos
+package-lock → informações das dependencias
+
+//iniciar um script ou projeto
+            "scripts": {
+                "start": "node ./src/server.js" → INICIA COM   →  npm run start
+                "DEV": "nodemon ./src/server.js" → INICIA COM  → npm run DEV
+            },
+
+
+//DEPENDENCIA DE DESENVOLVIMENTO
+npm install express --save     → dependencia do PROJETO.
+npm install nodemon --save-dev → dependencia do DESENVOLVIMENTO.
+    --save-dev → salva como dependencia de DESENVOLVIMENTO.
+
+
+
+
+
+        //CRIANDO  O SERVIDOR
+            const { request, response } = require("express");
+            const express = require("express");
+            const app = express();
+            app.listen(3333,) → inicia o servidor. 
+
+
+
+
+request→ e os dados que vem com a solicitação(GET ou demais)
+response→ a resposta que voce vai ter que dá(lá ele).
+
+//PARAMENTOS DE ROTA - PARAMS
+//Os parametros são "Obrigatorios" para a roda.
+        app.get("/message/:id/:user", (request, response) => {
+        const { id, user } = request.params;
+
+        response.send(`
+        Mensagem ID: ${id}
+        Para o Usuário: ${user}.`)
+        });
+
+
+//
+//Os valores são "opcional" para a roda      
+// ? é query parament.
+// & mais de um paramentro.
+                   // /users? page=1 & limit=10
+            app.get("/users", (request, response) => {
+                const { page, limit } = request.query;
+                response.send(` Pagina: ${page}. Mostrar: ${limit}.`)
+            });
+
+
+
+
+//CONTROLLERS
+// controller → processamento das requisições(execultar o que o usuario pediu)
+
+//A classe é utilizada para colocar varias funções(ACESSAR MAIS FACIL), cada controller PODE TER até 5 métodos
+    
+    class UserController{
+            funções/métodos
+            index        →   GET para listar Vários  registros
+            show         →   GET para exibir um registro especifico.
+            create       →   POST para criar um registro.
+            update       →   PUT para atualizar um registro.
+            delete       →   DELETE para remover um registro.
+    }
+
+
+
+
+
+
+
+// BANCO DE DADOS
+npm install sqlite3 sqlite --save → instalação do banco de dados
+
+//INSERIR
+    INSERT INTO users
+    (name, email, password)
+    VALUES
+    ('Joao', 'bruno@gmail.com', '123');
+
+//update
+    UPDATE users SET 
+    avatar = null
+
+    UPDATE users SET 
+    avatar = 'Bruno.png'
+    WHERE id = 1
+
+//ALTERAR 
+    ALTER TABLE users
+    DROP COLUMN status
+
+//CRIAR TABELA
+        const createUsers = `
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name VARCHAR,
+                email VARCHAR,
+                password VARCHAR,
+                avatar VARCHAR NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            
+            )
+
+
+        `;
+
+
+
+//SQL DENTRO DA app
+        const database = await sqliteConnection();
+            const checkUserExists = await database.get("SELECT * FROM users WHERE email = (?)", [email])
+            if(checkUserExists){
+                    throw new AppError('Esse e-mail já está em uso');
+            }
+
+            //cadastrando usuario
+            await database.run(
+                "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+                [name, email, password]
+                );
+            return response.status(201).json();
+
+            //ALTERAR NOME DE COLUNA
+                    ALTER TABLE users
+        RENAME COLUMN update_at TO updated_at
+
+
+
+//CRIPTOGRAFIA DE SENHA
+npm install bcryptjs → instalando o bcrypts
+const { hash} = require("bcryptjs"); → chamando a biblioteca
+const hashedPassword = hash(password, 8); → usando
+
+
+
+//query build
+npm install knex --save
+npx knex migrate:make createNotes(nome do arquivo) → criando migrations
+npx knex migrate:latest → rodando as migrations
+
+
+
+
+
+
+
+
