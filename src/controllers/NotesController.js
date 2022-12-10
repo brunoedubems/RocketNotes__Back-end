@@ -42,14 +42,14 @@ class NotesController {
         const { id } = request.params;
         const note = await knex("notes").where({ id }).first(); //mostra uma  nota especifica(first - uma)
         const tags = await knex("tags").where({ note_id: id }).orderBy("name"); //mostra as tags organizada pelo nome(orderby) buscando o id da nota com o NOTE_ID da tag
-        const links = await knex("links").where({ note_id: id }).orderBy("create_at"); //mostra as tags organizada pelo nome(orderby)
+        const links = await knex("links").where({ note_id: id }).orderBy("created_at"); //mostra as tags organizada pelo nome(orderby)
 
 
-        return response.json(
+        return response.json({
             ...note,
             tags,
             links,
-        );
+        });
     }
 
     async delete (request, response){
@@ -87,9 +87,17 @@ class NotesController {
         .orderBy("title");
 
     }
-    return response.json(notes);
-    }
+    const userTags = await knex("tags").where({user_id}) // filtro com id
+    const notesWithTags = notes.map( note => {
+        const noteTags = userTags.filter(tag => tag.note_id === note.id);
+            return {
+                ...note,
+                tags: noteTags
+            }
+    })
 
+    return response.json(notesWithTags);
+    }
 }
 
 module.exports = NotesController;
