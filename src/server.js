@@ -4,6 +4,7 @@ const express = require("express");
 
 const AppError = require("./utils/AppError");
 const routes = require("./routes");
+const uploadConfig = require("./configs/upload");
 
 
 migrationsRun();
@@ -11,6 +12,7 @@ migrationsRun();
 const app = express();
 app.use(express.json());
 
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 app.use(routes);
 
 app.use((error, request, response, next) => {
