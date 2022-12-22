@@ -6,6 +6,7 @@ const TMP_FOLDER = path.resolve(__dirname, ".." , "..", "tmp");
 const UPLOADS_FOLDER = path.resolve(TMP_FOLDER,"uploads" );
 
 
+//biblioteca para onde vamos colocar o arquivo do upload
 const MULTER = {
     storage: multer.diskStorage({
         destination: TMP_FOLDER,
