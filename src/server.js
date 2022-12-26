@@ -9,6 +9,7 @@ const routes = require("./routes");
 const uploadConfig = require("./configs/upload");
 const cors = require("cors");
 
+
 migrationsRun();
 
 const app = express();
